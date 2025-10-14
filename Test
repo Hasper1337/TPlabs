@@ -1,0 +1,39 @@
+import turtle
+
+def dragon_curve(t, length, order, direction=1):
+    """
+    Рисует кривую дракона рекурсивно.
+    
+    t: объект черепахи
+    length: длина одного сегмента
+    order: глубина рекурсии (0 — просто прямая линия)
+    direction: 1 — поворот вправо на этом уровне, -1 — влево
+    """
+    if order == 0:
+        t.forward(length)
+    else:
+        # Поворачиваемся на 45 градусов в нужную сторону
+        t.right(direction * 45)
+        # Рисуем первую половину кривой (с противоположным направлением)
+        dragon_curve(t, length / (2 ** 0.5), order - 1, 1)
+        # Поворачиваемся на 90 градусов в обратную сторону
+        t.left(direction * 90)
+        # Рисуем вторую половину кривой
+        dragon_curve(t, length / (2 ** 0.5), order - 1, -1)
+        # Возвращаемся в исходное направление
+        t.right(direction * 45)
+
+if __name__ == '__main__':
+    screen = turtle.Screen()
+    screen.setup(800, 600)
+    t = turtle.Turtle()
+    t.speed(0)  # максимальная скорость
+    t.penup()
+    t.goto(-100, 0)  # начальная позиция для лучшего отображения
+    t.pendown()
+    t.ht()
+
+    # Рисуем кривую дракона 10-го порядка
+    dragon_curve(t, 200, 10)
+
+    turtle.done()
